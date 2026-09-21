@@ -1,0 +1,733 @@
+/* =========================================================================
+   Instituto PSI & DH — Kelly Cristina
+   A página desce como uma coluna d'água: da superfície clara até o azul
+   abissal das especialidades, e volta à luz no contato.
+   ========================================================================= */
+
+:root {
+  /* paleta da cliente */
+  --abissal:    #011F44;
+  --profundo:   #0F3269;
+  --coluna:     #4688B3;
+  --superficie: #7AE3EF;
+  --respiro:    #FFCBE7;
+  --socorro:    #FF0010;
+  --branco:     #FFFFFF;
+
+  /* níveis de fundo */
+  --nivel-0: #F4F9FB;
+  --nivel-1: #E8F1F6;
+  --nivel-2: #D8E7F1;   /* tom mais denso, reserva-se ao hero para separar bem da seção seguinte */
+
+  /* espinha da página */
+  --margem:     140px;   /* onde o conteúdo começa */
+  --margem-dir:  96px;
+  --regua:       88px;   /* recuo da faixa de foto em "quem vai te atender" */
+
+  /* altura da transição entre um nível de água e o seguinte */
+  --mescla: 150px;
+
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--nivel-0);
+  color: var(--abissal);
+  font-family: "Archivo", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--coluna);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--profundo);
+  color: var(--branco);
+  padding: 12px 18px;
+  z-index: 100;
+  text-decoration: none;
+}
+.skip:focus { left: 12px; top: 12px; }
+
+/* -------------------------------------------------------------- tipografia */
+
+.h-display {
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(2.125rem, 1.15rem + 3.4vw, 3.875rem);
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+h2 {
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.5625rem, 1.1rem + 1.6vw, 2.5rem);
+  line-height: 1.18;
+  margin: 0;
+}
+
+h3 {
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.125rem, .95rem + .55vw, 1.4375rem);
+  line-height: 1.32;
+  margin: 0;
+}
+
+.h-contato {
+  font-size: clamp(1.75rem, 1.2rem + 1.9vw, 2.875rem);
+  line-height: 1.22;
+  max-width: 16ch;
+}
+
+p { margin: 0; max-width: 62ch; }
+
+.lead {
+  font-size: clamp(.9375rem, .9rem + .2vw, 1.125rem);
+  line-height: 1.7;
+  color: var(--profundo);
+  max-width: 46ch;
+}
+.lead--claro { color: rgba(255,255,255,.74); }
+
+.statement {
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(1.3125rem, .95rem + 1.25vw, 2.25rem);
+  line-height: 1.4;
+  color: var(--profundo);
+  max-width: 24ch;
+}
+
+.meta {
+  font-size: .875rem;
+  color: var(--coluna);
+  line-height: 1.5;
+}
+.meta--bloco { display: block; }
+
+.assinatura {
+  font-family: "Allura", cursive;
+  font-size: clamp(2.125rem, 1.6rem + 1.1vw, 2.875rem);
+  line-height: 1;
+  color: var(--profundo);
+  margin-top: 4px;
+}
+
+/* ------------------------------------------------------------------ botões */
+
+.btn {
+  --bg: var(--profundo);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--branco);
+  font-family: "Archivo", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 19px 30px;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: background-color .35s var(--ease), transform .18s var(--ease);
+}
+
+/* a luz que atravessa a água: um brilho que cruza o botão no hover */
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 35%, rgba(122,227,239,.30) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform .7s var(--ease);
+}
+.btn:hover { background: #17417f; }
+.btn:hover::after { transform: translateX(120%); }
+.btn:active { transform: translateY(1px); }
+
+.btn--sm { padding: 11px 18px; font-size: .875rem; }
+
+.tel {
+  font-weight: 500;
+  font-size: 1rem;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(70,136,179,.45);
+  padding-bottom: 2px;
+  transition: border-color .3s var(--ease);
+}
+.tel:hover { border-color: var(--profundo); }
+
+/* ============================================================ barra flutuante */
+
+.dock {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px var(--margem-dir) 12px var(--margem);
+  background: rgba(244,249,251,.86);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(70,136,179,.18);
+  transform: translateY(-100%);
+  transition: transform .45s var(--ease);
+}
+.dock.is-visivel { transform: translateY(0); }
+.dock__mark img { width: 48px; height: auto; }
+
+/* botão redondo do WhatsApp, fixo no canto — sempre à mão, em qualquer seção */
+.whatsapp-flutuante {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 30;
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #25D366;
+  color: var(--branco);
+  box-shadow: 0 8px 22px rgba(1,31,68,.30);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.whatsapp-flutuante:hover,
+.whatsapp-flutuante:focus-visible {
+  transform: scale(1.08);
+  box-shadow: 0 12px 28px rgba(1,31,68,.36);
+}
+
+/* ==================================================================== seções */
+
+.sec {
+  position: relative;
+  padding: 0 var(--margem-dir) 0 var(--margem);
+  /* o nível de água atual mescla, no rodapé da seção, para o próximo nível */
+  background-image: linear-gradient(
+    to bottom,
+    var(--agua) calc(100% - var(--mescla)),
+    var(--proxima) 100%
+  );
+}
+
+.sec--superficie { --agua: var(--nivel-2); --proxima: var(--branco);   padding-left: 0; padding-right: 0; }
+.sec--sobre      { --agua: var(--branco);  --proxima: var(--nivel-1);  padding-left: 0; padding-right: 0; }
+.sec--passos     { --agua: var(--nivel-1); --proxima: var(--abissal);  padding-block: 110px 320px; --mescla: 280px; }
+.sec--fundo      { --agua: var(--abissal); --proxima: var(--profundo); padding-block: 118px 126px; color: var(--branco); }
+.sec--instituto  { --agua: var(--profundo);--proxima: var(--nivel-1);  padding-block: 112px 118px; color: var(--branco); --mescla: 280px; }
+.sec--onde       { --agua: var(--nivel-1); --proxima: var(--nivel-0);  padding-block: 112px 118px; }
+.sec--faq        { --agua: var(--nivel-0); --proxima: var(--nivel-0);  padding-block: 100px 106px; }
+.sec--contato    { --agua: var(--nivel-0); --proxima: var(--nivel-0);  padding-block: 120px 0; }
+
+/* ----------------------------------------------------------- 01 superfície */
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 30px var(--margem-dir) 30px var(--margem);
+  /* a barra usa o branco da seção seguinte: separa-se do hero em vez de se misturar a ele */
+  background: var(--branco);
+}
+.nav__brand { display: flex; align-items: center; gap: 16px; }
+
+.nav__mark { display: inline-block; text-decoration: none; }
+.nav__mark img { width: 54px; height: auto; }
+
+/* assinatura + CRP, empilhados ao lado da marca — o mesmo par que fecha o texto em "quem vai te atender", só que compacto */
+.nav__assinatura {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding-left: 16px;
+  border-left: 1px solid rgba(70,136,179,.3);
+}
+.nav__nome {
+  font-family: "Allura", cursive;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--profundo);
+}
+.nav__crp {
+  font-size: .6875rem;
+  letter-spacing: .03em;
+  color: var(--coluna);
+}
+
+.nav__links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav__links a {
+  font-weight: 500;
+  font-size: .9375rem;
+  text-decoration: none;
+  color: var(--profundo);
+  position: relative;
+  padding-bottom: 3px;
+}
+/* o sublinhado sobe como uma linha d'água */
+.nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: var(--coluna);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s var(--ease);
+}
+.nav__links a:hover::after,
+.nav__links a:focus-visible::after { transform: scaleX(1); }
+
+.nav__cta { display: none; }
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 76px var(--margem-dir) 118px var(--margem);
+}
+.hero__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 34px;
+  max-width: 660px;
+}
+.hero__action { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+
+/* o que ela trabalha, em duas colunas: responde "isso é pra mim?" sem virar cartão */
+.hero__temas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 40px;
+  width: 100%;
+  max-width: 620px;
+}
+.hero__temas li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: .9375rem;
+  line-height: 1.5;
+  color: var(--profundo);
+}
+/* o mesmo traço curto que marca os pilares do instituto */
+.hero__temas li::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 18px;
+  height: 1px;
+  background: var(--coluna);
+  transform: translateY(-5px);
+}
+
+/* a faixa de fatos fecha a coluna de texto e equilibra a altura do retrato */
+.hero__fatos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 52px;
+  margin: 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(70,136,179,.28);
+  width: 100%;
+  max-width: 620px;
+}
+.hero__fatos dt {
+  font-size: .75rem;
+  letter-spacing: .04em;
+  color: var(--coluna);
+  margin-bottom: 4px;
+}
+.hero__fatos dd {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--abissal);
+}
+
+.hero__portrait { margin: 0; flex: 0 0 auto; }
+.hero__portrait img { width: 540px; border-radius: 16px; }
+
+/* --------------------------------------------------- 02 quem vai te atender */
+
+.sec--sobre { display: flex; align-items: stretch; gap: 84px; }
+/* a faixa começa exatamente na linha de profundidade: a régua vira a borda da foto */
+.sobre__faixa { margin: 0 0 0 var(--regua); flex: 0 0 320px; }
+.sobre__faixa img { width: 320px; height: 100%; object-fit: cover; }
+.sobre__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+  padding: 104px var(--margem-dir) 104px 0;
+  max-width: 640px;
+}
+
+/* --------------------------------------------------------- 03 como funciona */
+
+.sec--passos h2 { margin-bottom: 56px; }
+
+.passos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 46px; }
+.passo { display: flex; gap: 34px; align-items: flex-start; }
+.passo:nth-child(2) { padding-left: 64px; }
+.passo:nth-child(3) { padding-left: 128px; }
+
+.passo__n {
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 300;
+  font-size: 3.625rem;
+  line-height: 1;
+  color: var(--coluna);
+  flex: 0 0 46px;
+}
+.passo__corpo { display: flex; flex-direction: column; gap: 10px; padding-top: 8px; max-width: 560px; }
+.passo__corpo p { color: var(--profundo); font-size: 1rem; }
+
+/* -------------------------------------------------------- 04 especialidades */
+
+.sec--fundo h2 { margin-bottom: 52px; }
+
+.especialidades { margin: 0; }
+.esp {
+  display: flex;
+  gap: 64px;
+  padding: 34px 0;
+  border-top: 1px solid rgba(122,227,239,.22);
+}
+.esp:first-child { border-top: 0; padding-top: 0; }
+.esp dt {
+  font-family: "Spectral", Georgia, serif;
+  font-size: 1.8125rem;
+  line-height: 1.28;
+  flex: 0 0 360px;
+}
+.esp dd {
+  margin: 0;
+  color: rgba(255,255,255,.72);
+  font-size: 1rem;
+  max-width: 560px;
+}
+
+/* ------------------------------------------------------------ 05 instituto */
+
+.sec--instituto h2 { margin-bottom: 30px; }
+.sec--instituto .lead { margin-bottom: 34px; }
+
+.pilares { display: flex; gap: 48px; align-items: flex-start; }
+.pilar { flex: 1 1 0; display: flex; flex-direction: column; gap: 16px; }
+.pilar::before {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 2px;
+  background: var(--marcador);
+  transform-origin: left;
+}
+.pilar--clinica { --marcador: var(--superficie); flex-grow: 1.05; }
+.pilar--socorro { --marcador: var(--socorro);    flex-grow: 1.25; }
+.pilar--humano  { --marcador: var(--respiro);    flex-grow: .95; }
+.pilar p { color: rgba(255,255,255,.74); font-size: .9375rem; }
+
+/* -------------------------------------------------------- 06 onde e quando */
+
+.sec--onde h2 { margin-bottom: 40px; }
+.sec--onde .statement { margin-bottom: 40px; }
+
+.locais {
+  list-style: none;
+  margin: 0 0 40px;
+  padding: 0;
+  display: flex;
+  gap: 72px;
+  flex-wrap: wrap;
+}
+.locais li { display: flex; flex-direction: column; gap: 7px; }
+.locais strong { font-weight: 500; font-size: 1.125rem; }
+.locais span { color: var(--coluna); font-size: .9375rem; }
+
+/* -------------------------------------------------- 06.5 perguntas e respostas */
+
+.sec--faq h2 { margin-bottom: 44px; max-width: 20ch; }
+
+.faq { border-top: 1px solid rgba(70,136,179,.28); max-width: 780px; }
+
+.faq__item { border-bottom: 1px solid rgba(70,136,179,.28); }
+
+.faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 400;
+  font-size: 1.1875rem;
+  line-height: 1.4;
+  color: var(--abissal);
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+
+.faq__item summary::after {
+  content: "+";
+  flex: 0 0 auto;
+  width: 20px;
+  font-family: "Archivo", sans-serif;
+  font-size: 1.375rem;
+  font-weight: 400;
+  color: var(--coluna);
+  text-align: center;
+  transition: transform .35s var(--ease);
+}
+.faq__item[open] summary::after { transform: rotate(45deg); }
+
+.faq__item summary:hover,
+.faq__item summary:focus-visible { color: var(--profundo); }
+
+.faq__item p {
+  margin: 0;
+  padding: 0 56px 28px 0;
+  color: var(--profundo);
+  font-size: .9375rem;
+}
+
+/* -------------------------------------------------------------- 07 contato */
+
+.contato { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; padding-bottom: 110px; }
+.contato__acao { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; padding-top: 8px; }
+
+.rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 30px 0 38px;
+  border-top: 1px solid rgba(70,136,179,.35);
+}
+.rodape img { width: 40px; height: auto; }
+.rodape p { font-size: .8125rem; color: var(--coluna); }
+
+/* ===================================================== espaços para imagens */
+/* enquanto o arquivo não existe, o contorno pontilhado do Figma aparece      */
+
+.slot { display: block; position: relative; }
+.slot.sem-imagem {
+  border: 1px dashed var(--coluna);
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+}
+.slot.sem-imagem img { display: none; }
+.slot.sem-imagem::after {
+  content: attr(data-label);
+  font-size: 11px;
+  letter-spacing: .02em;
+  color: var(--coluna);
+}
+
+/* ==================================================== o momento de entrada  */
+/* Uma única sequência, na carga: o conteúdo do hero emerge de baixo.         */
+
+/* só esconde se o JavaScript estiver de pé — sem ele o conteúdo aparece normal */
+.js [data-enter] [data-enter-item] {
+  opacity: 0;
+  transform: translateY(14px);
+}
+[data-enter].is-dentro [data-enter-item] {
+  opacity: 1;
+  transform: none;
+  transition: opacity .75s var(--ease), transform .75s var(--ease);
+}
+[data-enter].is-dentro [data-enter-item]:nth-child(1) { transition-delay: .05s; }
+[data-enter].is-dentro [data-enter-item]:nth-child(2) { transition-delay: .15s; }
+[data-enter].is-dentro [data-enter-item]:nth-child(3) { transition-delay: .25s; }
+[data-enter].is-dentro [data-enter-item]:nth-child(4) { transition-delay: .35s; }
+[data-enter].is-dentro [data-enter-item]:nth-child(5) { transition-delay: .45s; }
+[data-enter].is-dentro .hero__portrait                { transition-delay: .20s; }
+
+/* ===================================================================== 768 */
+
+@media (max-width: 1080px) {
+  :root { --margem: 88px; --margem-dir: 56px; --regua: 48px; --mescla: 130px; }
+
+  body { font-size: 16px; }
+
+  .nav { padding: 26px var(--margem-dir) 26px var(--margem); }
+  .nav__mark img { width: 45px; }
+  /* sem espaço para a assinatura ao lado da marca com cinco links no menu */
+  .nav__assinatura { display: none; }
+  .nav__links { gap: 16px; }
+  .nav__links a { font-size: .84375rem; }
+
+  .hero {
+    flex-direction: column;
+    gap: 30px;
+    padding: 58px var(--margem-dir) 76px var(--margem);
+  }
+  .hero__copy { gap: 30px; }
+  .hero__temas { gap: 12px 32px; max-width: none; }
+  .hero__fatos { gap: 16px 40px; max-width: none; }
+  .hero__portrait img { width: 420px; }
+
+  /* a faixa do "sobre" passa a sangrar no topo, não na lateral */
+  .sec--sobre { flex-direction: column; gap: 0; }
+  /* aqui a faixa deita e ocupa a largura toda: sem a margem da régua */
+  .sobre__faixa { flex: none; width: 100%; margin-left: 0; }
+  /* a foto é de corpo inteiro: o enquadramento sobe para não cortar o rosto */
+  .sobre__faixa img { width: 100%; height: 310px; object-fit: cover; object-position: center 10%; }
+  .sobre__texto { padding: 72px var(--margem-dir) 86px var(--margem); gap: 24px; }
+
+  .sec--passos { padding-block: 84px 320px; }
+  .passo { gap: 24px; }
+  .passo:nth-child(2) { padding-left: 40px; }
+  .passo:nth-child(3) { padding-left: 80px; }
+  .passo__n { font-size: 2.75rem; flex-basis: 34px; }
+
+  .sec--fundo { padding-block: 90px 96px; }
+  .esp { gap: 34px; padding: 28px 0; }
+  .esp dt { flex-basis: 208px; font-size: 1.4375rem; }
+  .esp dd { font-size: .9375rem; }
+
+  .sec--instituto { padding-block: 86px 92px; }
+  .pilares { flex-wrap: wrap; gap: 40px 34px; }
+  /* dois por linha; o terceiro desce, mas não se estica pela linha inteira */
+  .pilar { flex: 1 1 42%; max-width: calc(50% - 17px); }
+
+  .sec--onde { padding-block: 86px 92px; }
+  .locais { gap: 44px; }
+
+  .sec--faq { padding-block: 78px 84px; }
+  .sec--faq h2 { margin-bottom: 34px; }
+  .faq__item summary { font-size: 1.0625rem; }
+
+  .sec--contato { padding-top: 92px; }
+  .contato { padding-bottom: 84px; }
+}
+
+/* ===================================================================== 390 */
+
+@media (max-width: 640px) {
+  :root { --margem: 44px; --margem-dir: 24px; --regua: 20px; --mescla: 110px; }
+
+  body { font-size: 15px; line-height: 1.78; }
+
+  .dock { padding: 10px var(--margem-dir) 10px var(--margem); }
+  .dock__mark img { width: 37px; }
+
+  .whatsapp-flutuante { right: 18px; bottom: 18px; width: 52px; height: 52px; }
+  .whatsapp-flutuante svg { width: 26px; height: 26px; }
+
+  .nav { padding: 18px var(--margem-dir) 18px var(--margem); }
+  .nav__mark img { width: 46px; }
+  /* sem espaço para a assinatura ao lado da marca; ela já fecha o texto em "quem vai te atender" */
+  .nav__assinatura { display: none; }
+  /* no mobile o menu sai e a ação fica sempre visível */
+  .nav__links { display: none; }
+  .nav__cta { display: inline-flex; }
+
+  .hero { padding: 40px var(--margem-dir) 54px var(--margem); gap: 22px; }
+  .hero__copy { gap: 22px; }
+  /* uma coluna: os temas são frases longas demais para dividir em 390px */
+  .hero__temas { grid-template-columns: 1fr; gap: 10px; font-size: .875rem; }
+  /* rótulo e valor lado a lado: ocupa três linhas em vez de seis, e o retrato sobe */
+  .hero__fatos { flex-direction: column; gap: 10px; padding-top: 18px; }
+  .hero__fatos > div { display: flex; align-items: baseline; gap: 14px; }
+  .hero__fatos dt { flex: 0 0 78px; margin-bottom: 0; }
+  .hero__fatos dd { font-size: .9375rem; }
+  .hero__portrait img { width: 100%; }
+  .hero__action { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  .sobre__faixa img { height: 260px; }
+  .sobre__texto { padding: 52px var(--margem-dir) 62px var(--margem); gap: 18px; }
+
+  .sec--passos { padding-block: 60px 320px; }
+  .sec--passos h2 { margin-bottom: 32px; }
+  .passos { gap: 26px; }
+  .passo { gap: 14px; }
+  .passo:nth-child(2) { padding-left: 14px; }
+  .passo:nth-child(3) { padding-left: 28px; }
+  .passo__n { font-size: 1.875rem; flex-basis: 22px; }
+  .passo__corpo { padding-top: 3px; gap: 6px; }
+
+  .sec--fundo { padding-block: 64px 70px; }
+  .sec--fundo h2 { margin-bottom: 28px; }
+  /* a lista de especialidades empilha: nome em cima, descrição embaixo */
+  .esp { flex-direction: column; gap: 9px; padding: 22px 0; }
+  .esp dt { flex-basis: auto; font-size: 1.25rem; }
+  .esp dd { font-size: .875rem; }
+
+  .sec--instituto { padding-block: 62px 68px; }
+  .pilares { flex-direction: column; gap: 30px; }
+  .pilar { flex: none; gap: 11px; }
+  .pilar::before { width: 36px; }
+
+  .sec--onde { padding-block: 62px 68px; }
+  .sec--onde h2 { margin-bottom: 22px; }
+  .sec--onde .statement { margin-bottom: 22px; }
+  .locais { flex-direction: column; gap: 18px; margin-bottom: 22px; }
+
+  .sec--faq { padding-block: 54px 60px; }
+  .sec--faq h2 { margin-bottom: 24px; max-width: none; }
+  .faq__item summary { padding: 20px 0; gap: 16px; font-size: 1rem; }
+  .faq__item p { padding: 0 28px 20px 0; font-size: .875rem; }
+
+  .sec--contato { padding-top: 66px; }
+  .contato { padding-bottom: 60px; gap: 18px; }
+  .contato__acao { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .rodape { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 0 30px; }
+}
+
+/* ============================================ quem pediu menos movimento */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    transition-duration: .001ms !important;
+  }
+  [data-enter] [data-enter-item] { opacity: 1; transform: none; }
+  .btn::after { display: none; }
+}

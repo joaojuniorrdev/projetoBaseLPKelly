@@ -1,0 +1,16 @@
+# sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# editores
+.vscode/
+.idea/
+*.swp
+
+# dependências (o projeto não usa, mas evita acidentes)
+node_modules/
+
+# rascunhos
+*.log
+*.tmp
