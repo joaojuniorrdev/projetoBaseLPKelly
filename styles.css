@@ -172,6 +172,9 @@ p { margin: 0; max-width: 62ch; }
 
 .btn--sm { padding: 11px 18px; font-size: .875rem; }
 
+.btn--whatsapp { --bg: #25D366; }
+.btn--whatsapp:hover { background: #1fb958; }
+
 .tel {
   font-weight: 500;
   font-size: 1rem;
@@ -382,18 +385,19 @@ p { margin: 0; max-width: 62ch; }
   border-top: 1px solid rgba(70,136,179,.28);
   width: 100%;
   max-width: 620px;
+  color: var(--branco);
 }
 .hero__fatos dt {
   font-size: .75rem;
   letter-spacing: .04em;
-  color: var(--coluna);
+  color: var(--branco);
   margin-bottom: 4px;
 }
 .hero__fatos dd {
   margin: 0;
   font-size: 1rem;
   font-weight: 500;
-  color: var(--abissal);
+  color: var(--branco);
 }
 
 .hero__portrait { margin: 0; flex: 0 0 auto; }
