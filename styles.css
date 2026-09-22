@@ -240,7 +240,19 @@ p { margin: 0; max-width: 62ch; }
   );
 }
 
-.sec--superficie { --agua: var(--nivel-2); --proxima: var(--branco);   padding-left: 0; padding-right: 0; }
+.sec--superficie {
+  --agua: var(--nivel-2); --proxima: var(--branco);   padding-left: 0; padding-right: 0;
+  background-image:
+    linear-gradient(
+      to bottom,
+      transparent calc(100% - var(--mescla)),
+      var(--proxima) 100%
+    ),
+    url('img/mar-aberto.jpg');
+  background-size: 100% 100%, cover;
+  background-position: top, center;
+  background-repeat: no-repeat, no-repeat;
+}
 .sec--sobre      { --agua: var(--branco);  --proxima: var(--nivel-1);  padding-left: 0; padding-right: 0; }
 .sec--passos     { --agua: var(--nivel-1); --proxima: var(--abissal);  padding-block: 110px 320px; --mescla: 280px; }
 .sec--fundo      { --agua: var(--abissal); --proxima: var(--profundo); padding-block: 118px 126px; color: var(--branco); }
@@ -257,8 +269,6 @@ p { margin: 0; max-width: 62ch; }
   justify-content: space-between;
   gap: 32px;
   padding: 30px var(--margem-dir) 30px var(--margem);
-  /* a barra usa o branco da seção seguinte: separa-se do hero em vez de se misturar a ele */
-  background: var(--branco);
 }
 .nav__brand { display: flex; align-items: center; gap: 16px; }
 
@@ -353,14 +363,14 @@ p { margin: 0; max-width: 62ch; }
   color: var(--profundo);
 }
 /* o mesmo traço curto que marca os pilares do instituto */
-.hero__temas li::before {
+/*.hero__temas li::before {
   content: "";
   flex: 0 0 auto;
   width: 18px;
   height: 1px;
   background: var(--coluna);
   transform: translateY(-5px);
-}
+}*/
 
 /* a faixa de fatos fecha a coluna de texto e equilibra a altura do retrato */
 .hero__fatos {
@@ -387,7 +397,7 @@ p { margin: 0; max-width: 62ch; }
 }
 
 .hero__portrait { margin: 0; flex: 0 0 auto; }
-.hero__portrait img { width: 540px; border-radius: 16px; }
+.hero__portrait img { width: 540px; border-radius: 360px; }
 
 /* --------------------------------------------------- 02 quem vai te atender */
 
