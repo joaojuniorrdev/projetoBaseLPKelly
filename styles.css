@@ -143,6 +143,7 @@ p { margin: 0; max-width: 62ch; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   background: var(--bg);
   color: var(--branco);
   font-family: "Archivo", sans-serif;
@@ -173,8 +174,12 @@ p { margin: 0; max-width: 62ch; }
 
 .btn--sm { padding: 11px 18px; font-size: .9375rem; }
 
-.btn--whatsapp { --bg: #25D366; }
-.btn--whatsapp:hover { background: #1fb958; }
+.btn--whatsapp { --bg: var(--abissal); }
+.btn--whatsapp:hover { background: var(--profundo); }
+
+/* o selo do WhatsApp acompanha a cor do texto do botão */
+.btn__icone { flex: 0 0 auto; }
+.btn--sm .btn__icone { margin-left: -2px; }
 
 .tel {
   font-weight: 500;
@@ -255,11 +260,18 @@ p { margin: 0; max-width: 62ch; }
       var(--proxima) 100%
     ),
     /* véu branco: deixa a foto 20% mais transparente */
-    linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,.2)),
-    url('img/mar-aberto.jpg');
+    linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,.6)),
+    url('assets/fundo-hero.jpg');
   background-size: 100% 100%, 100% 100%, cover;
   background-position: top, top, center;
   background-repeat: no-repeat, no-repeat, no-repeat;
+  /* só a foto (a última camada) fica presa à viewport: a seção desliza por cima
+     dela como uma janela aberta para o mar; as duas primeiras rolam com a seção */
+  background-attachment: scroll, scroll, fixed;
+}
+/* no toque o fixed não funciona (iOS ignora e estica a imagem): volta ao normal */
+@media (pointer: coarse) {
+  .sec--superficie { background-attachment: scroll, scroll, scroll; }
 }
 .sec--sobre      { --agua: var(--branco);  --proxima: var(--nivel-1);  padding-left: 0; padding-right: 0; }
 .sec--passos     { --agua: var(--nivel-1); --proxima: var(--abissal);  padding-block: 110px 320px; --mescla: 280px; }
@@ -277,6 +289,8 @@ p { margin: 0; max-width: 62ch; }
   justify-content: space-between;
   gap: 32px;
   padding: 30px var(--margem-dir) 30px var(--margem);
+  /* faixa branca sobre a foto: separa a marca e o menu do mar */
+  background: var(--branco);
 }
 .nav__brand { display: flex; align-items: center; gap: 16px; }
 
@@ -335,11 +349,8 @@ p { margin: 0; max-width: 62ch; }
 
 .nav__cta { display: none; }
 
+/* sem retrato: uma coluna só, ancorada na mesma margem que o resto da página */
 .hero {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
   padding: 76px var(--margem-dir) 118px var(--margem);
 }
 .hero__copy {
@@ -347,7 +358,7 @@ p { margin: 0; max-width: 62ch; }
   flex-direction: column;
   align-items: flex-start;
   gap: 34px;
-  max-width: 660px;
+  max-width: 720px;
 }
 .hero__action { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
 
@@ -360,7 +371,6 @@ p { margin: 0; max-width: 62ch; }
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px 40px;
   width: 100%;
-  max-width: 620px;
 }
 .hero__temas li {
   display: flex;
@@ -368,7 +378,7 @@ p { margin: 0; max-width: 62ch; }
   gap: 12px;
   font-size: .9375rem;
   line-height: 1.5;
-  color: var(--branco);
+  color: var(--abissal);
 }
 /* o mesmo traço curto que marca os pilares do instituto */
 /*.hero__temas li::before {
@@ -380,7 +390,7 @@ p { margin: 0; max-width: 62ch; }
   transform: translateY(-5px);
 }*/
 
-/* a faixa de fatos fecha a coluna de texto e equilibra a altura do retrato */
+/* a faixa de fatos fecha a coluna de texto */
 .hero__fatos {
   display: flex;
   flex-wrap: wrap;
@@ -389,24 +399,20 @@ p { margin: 0; max-width: 62ch; }
   padding-top: 24px;
   border-top: 1px solid rgba(70,136,179,.28);
   width: 100%;
-  max-width: 620px;
-  color: var(--branco);
+  color: var(--abissal);
 }
 .hero__fatos dt {
   font-size: .8125rem;
   letter-spacing: .04em;
-  color: var(--branco);
+  color: var(--abissal);
   margin-bottom: 4px;
 }
 .hero__fatos dd {
   margin: 0;
   font-size: 1rem;
   font-weight: 500;
-  color: var(--branco);
+  color: var(--abissal);
 }
-
-.hero__portrait { margin: 0; flex: 0 0 auto; }
-.hero__portrait img { width: 540px; border-radius: 360px; }
 
 /* --------------------------------------------------- 02 quem vai te atender */
 
@@ -414,6 +420,23 @@ p { margin: 0; max-width: 62ch; }
 /* a faixa começa exatamente na linha de profundidade: a régua vira a borda da foto */
 .sobre__faixa { margin: 0 0 0 var(--regua); flex: 0 0 320px; }
 .sobre__faixa img { width: 320px; height: 100%; object-fit: cover; }
+
+/* duas fotos no mesmo lugar: a de baixo fica no fluxo e define a caixa, a de cima
+   flutua sobre ela e só o opacity muda — a troca não mexe em nada do layout */
+.sobre__alterna {
+  position: absolute;
+  inset: 0;
+  animation: sobre-alterna 14s ease-in-out infinite;
+}
+/* preenche a caixa que a foto de baixo criou, seja qual for a largura do momento */
+.sobre__faixa .sobre__alterna img { width: 100%; height: 100%; }
+
+@keyframes sobre-alterna {
+  0%,  42% { opacity: 0; }
+  50%, 92% { opacity: 1; }
+  100%     { opacity: 0; }
+}
+
 .sobre__texto {
   display: flex;
   flex-direction: column;
@@ -633,7 +656,6 @@ p { margin: 0; max-width: 62ch; }
 [data-enter].is-dentro [data-enter-item]:nth-child(3) { transition-delay: .25s; }
 [data-enter].is-dentro [data-enter-item]:nth-child(4) { transition-delay: .35s; }
 [data-enter].is-dentro [data-enter-item]:nth-child(5) { transition-delay: .45s; }
-[data-enter].is-dentro .hero__portrait                { transition-delay: .20s; }
 
 /* ===================================================================== 768 */
 
@@ -649,15 +671,10 @@ p { margin: 0; max-width: 62ch; }
   .nav__links { gap: 16px; }
   .nav__links a { font-size: .875rem; }
 
-  .hero {
-    flex-direction: column;
-    gap: 30px;
-    padding: 58px var(--margem-dir) 76px var(--margem);
-  }
+  .hero { padding: 58px var(--margem-dir) 76px var(--margem); }
   .hero__copy { gap: 30px; }
-  .hero__temas { gap: 12px 32px; max-width: none; }
-  .hero__fatos { gap: 16px 40px; max-width: none; }
-  .hero__portrait img { width: 420px; }
+  .hero__temas { gap: 12px 32px; }
+  .hero__fatos { gap: 16px 40px; }
 
   /* a faixa do "sobre" passa a sangrar no topo, não na lateral */
   .sec--sobre { flex-direction: column; gap: 0; }
@@ -698,7 +715,12 @@ p { margin: 0; max-width: 62ch; }
 
 @media (max-width: 640px) {
   :root { --margem: 44px; --margem-dir: 24px; --regua: 20px; --mescla: 110px; }
-  .sec--superficie { --mescla: 36px; }
+  .sec--superficie {
+    --mescla: 36px;
+    /* numa tela estreita o cover corta as laterais da foto (3:2) e o centro cai
+       no mar vazio: ancorar à direita mantém em quadro a pessoa olhando a paisagem */
+    background-position: top, top, right center;
+  }
 
   body { font-size: 15px; line-height: 1.78; }
 
@@ -716,7 +738,7 @@ p { margin: 0; max-width: 62ch; }
   .nav__links { display: none; }
   .nav__cta { display: inline-flex; }
 
-  .hero { padding: 40px var(--margem-dir) 54px var(--margem); gap: 22px; }
+  .hero { padding: 40px var(--margem-dir) 54px var(--margem); }
   .hero__copy { gap: 22px; }
   /* uma coluna: os temas são frases longas demais para dividir em 390px */
   .hero__temas { grid-template-columns: 1fr; gap: 10px; font-size: .9375rem; }
@@ -725,7 +747,6 @@ p { margin: 0; max-width: 62ch; }
   .hero__fatos > div { display: flex; align-items: baseline; gap: 14px; }
   .hero__fatos dt { flex: 0 0 78px; margin-bottom: 0; }
   .hero__fatos dd { font-size: .9375rem; }
-  .hero__portrait img { width: 100%; }
   .hero__action { flex-direction: column; align-items: flex-start; gap: 12px; }
   /* no mobile todo o texto do hero acompanha a cor do h1 */
   .hero .lead,
@@ -734,6 +755,15 @@ p { margin: 0; max-width: 62ch; }
   .hero__fatos,
   .hero__fatos dt,
   .hero__fatos dd { color: var(--abissal); }
+
+  /* sobre a foto e em corpo pequeno o texto some: aqui ele ganha peso.
+     O h1 é Spectral, que fica pesado demais em 700 — 600 já o firma */
+  .hero .h-display { font-weight: 600; }
+  .hero .lead,
+  .hero .meta,
+  .hero__temas li,
+  .hero__fatos dd { font-weight: 700; }
+  .hero__fatos dt { font-weight: 600; }
 
   .sobre__faixa img { height: 260px; }
   .sobre__texto { padding: 52px var(--margem-dir) 62px var(--margem); gap: 18px; }
@@ -788,4 +818,6 @@ p { margin: 0; max-width: 62ch; }
   }
   [data-enter] [data-enter-item] { opacity: 1; transform: none; }
   .btn::after { display: none; }
+  /* sem o animation: none a regra de duração acima faria a troca piscar */
+  .sobre__alterna { animation: none; opacity: 0; }
 }
