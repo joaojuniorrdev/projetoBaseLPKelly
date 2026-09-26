@@ -78,6 +78,7 @@ a { color: inherit; }
   letter-spacing: -0.01em;
   margin: 0;
 }
+.h-display__destaque { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .08em; }
 
 h2 {
   font-family: "Spectral", Georgia, serif;
@@ -121,7 +122,7 @@ p { margin: 0; max-width: 62ch; }
 }
 
 .meta {
-  font-size: .875rem;
+  font-size: .9375rem;
   color: var(--coluna);
   line-height: 1.5;
 }
@@ -170,7 +171,7 @@ p { margin: 0; max-width: 62ch; }
 .btn:hover::after { transform: translateX(120%); }
 .btn:active { transform: translateY(1px); }
 
-.btn--sm { padding: 11px 18px; font-size: .875rem; }
+.btn--sm { padding: 11px 18px; font-size: .9375rem; }
 
 .btn--whatsapp { --bg: #25D366; }
 .btn--whatsapp:hover { background: #1fb958; }
@@ -245,21 +246,25 @@ p { margin: 0; max-width: 62ch; }
 
 .sec--superficie {
   --agua: var(--nivel-2); --proxima: var(--branco);   padding-left: 0; padding-right: 0;
+  /* mescla curta: precisa caber no padding inferior do hero para não cobrir o texto */
+  --mescla: 60px;
   background-image:
     linear-gradient(
       to bottom,
       transparent calc(100% - var(--mescla)),
       var(--proxima) 100%
     ),
+    /* véu branco: deixa a foto 20% mais transparente */
+    linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,.2)),
     url('img/mar-aberto.jpg');
-  background-size: 100% 100%, cover;
-  background-position: top, center;
-  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 100%, 100% 100%, cover;
+  background-position: top, top, center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
 }
 .sec--sobre      { --agua: var(--branco);  --proxima: var(--nivel-1);  padding-left: 0; padding-right: 0; }
 .sec--passos     { --agua: var(--nivel-1); --proxima: var(--abissal);  padding-block: 110px 320px; --mescla: 280px; }
 .sec--fundo      { --agua: var(--abissal); --proxima: var(--profundo); padding-block: 118px 126px; color: var(--branco); }
-.sec--instituto  { --agua: var(--profundo);--proxima: var(--nivel-1);  padding-block: 112px 118px; color: var(--branco); --mescla: 280px; }
+.sec--instituto  { --agua: var(--profundo);--proxima: var(--nivel-1);  padding-block: 112px calc(var(--mescla) + 48px); color: var(--branco); --mescla: 280px; }
 .sec--onde       { --agua: var(--nivel-1); --proxima: var(--nivel-0);  padding-block: 112px 118px; }
 .sec--faq        { --agua: var(--nivel-0); --proxima: var(--nivel-0);  padding-block: 100px 106px; }
 .sec--contato    { --agua: var(--nivel-0); --proxima: var(--nivel-0);  padding-block: 120px 0; }
@@ -276,7 +281,7 @@ p { margin: 0; max-width: 62ch; }
 .nav__brand { display: flex; align-items: center; gap: 16px; }
 
 .nav__mark { display: inline-block; text-decoration: none; }
-.nav__mark img { width: 54px; height: auto; }
+.nav__mark img { width: 78px; height: auto; }
 
 /* assinatura + CRP, empilhados ao lado da marca — o mesmo par que fecha o texto em "quem vai te atender", só que compacto */
 .nav__assinatura {
@@ -294,7 +299,7 @@ p { margin: 0; max-width: 62ch; }
   color: var(--profundo);
 }
 .nav__crp {
-  font-size: .6875rem;
+  font-size: .75rem;
   letter-spacing: .03em;
   color: var(--coluna);
 }
@@ -363,7 +368,7 @@ p { margin: 0; max-width: 62ch; }
   gap: 12px;
   font-size: .9375rem;
   line-height: 1.5;
-  color: var(--profundo);
+  color: var(--branco);
 }
 /* o mesmo traço curto que marca os pilares do instituto */
 /*.hero__temas li::before {
@@ -388,7 +393,7 @@ p { margin: 0; max-width: 62ch; }
   color: var(--branco);
 }
 .hero__fatos dt {
-  font-size: .75rem;
+  font-size: .8125rem;
   letter-spacing: .04em;
   color: var(--branco);
   margin-bottom: 4px;
@@ -552,17 +557,45 @@ p { margin: 0; max-width: 62ch; }
 .contato { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; padding-bottom: 110px; }
 .contato__acao { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; padding-top: 8px; }
 
-.rodape {
+.rodape { border-top: 1px solid rgba(70,136,179,.35); }
+
+/* marca e frase lado a lado, numa faixa baixa: o site fecha na voz da Kelly sem virar outra seção */
+.rodape__topo {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 24px;
-  flex-wrap: wrap;
-  padding: 30px 0 38px;
-  border-top: 1px solid rgba(70,136,179,.35);
+  padding: 28px 0 24px;
 }
-.rodape img { width: 40px; height: auto; }
-.rodape p { font-size: .8125rem; color: var(--coluna); }
+.rodape__marca { flex: 0 0 auto; }
+.rodape__marca img { width: 48px; height: auto; }
+
+.rodape__manifesto { margin: 0; }
+.rodape__manifesto blockquote { margin: 0; }
+.rodape__manifesto p {
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--profundo);
+  max-width: 68ch;
+}
+.rodape__assinatura {
+  margin-top: 4px;
+  font-family: "Allura", cursive;
+  font-size: 1.375rem;
+  line-height: 1;
+  color: var(--profundo);
+}
+
+.rodape__base {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px 24px;
+  flex-wrap: wrap;
+  padding: 14px 0 26px;
+  border-top: 1px solid rgba(70,136,179,.18);
+}
+.rodape__base p { font-size: .875rem; color: var(--coluna); }
 
 /* ===================================================== espaços para imagens */
 /* enquanto o arquivo não existe, o contorno pontilhado do Figma aparece      */
@@ -610,11 +643,11 @@ p { margin: 0; max-width: 62ch; }
   body { font-size: 16px; }
 
   .nav { padding: 26px var(--margem-dir) 26px var(--margem); }
-  .nav__mark img { width: 45px; }
+  .nav__mark img { width: 65px; }
   /* sem espaço para a assinatura ao lado da marca com cinco links no menu */
   .nav__assinatura { display: none; }
   .nav__links { gap: 16px; }
-  .nav__links a { font-size: .84375rem; }
+  .nav__links a { font-size: .875rem; }
 
   .hero {
     flex-direction: column;
@@ -645,7 +678,7 @@ p { margin: 0; max-width: 62ch; }
   .esp dt { flex-basis: 208px; font-size: 1.4375rem; }
   .esp dd { font-size: .9375rem; }
 
-  .sec--instituto { padding-block: 86px 92px; }
+  .sec--instituto { padding-block: 86px calc(var(--mescla) + 36px); }
   .pilares { flex-wrap: wrap; gap: 40px 34px; }
   /* dois por linha; o terceiro desce, mas não se estica pela linha inteira */
   .pilar { flex: 1 1 42%; max-width: calc(50% - 17px); }
@@ -665,6 +698,7 @@ p { margin: 0; max-width: 62ch; }
 
 @media (max-width: 640px) {
   :root { --margem: 44px; --margem-dir: 24px; --regua: 20px; --mescla: 110px; }
+  .sec--superficie { --mescla: 36px; }
 
   body { font-size: 15px; line-height: 1.78; }
 
@@ -675,7 +709,7 @@ p { margin: 0; max-width: 62ch; }
   .whatsapp-flutuante svg { width: 26px; height: 26px; }
 
   .nav { padding: 18px var(--margem-dir) 18px var(--margem); }
-  .nav__mark img { width: 46px; }
+  .nav__mark img { width: 66px; }
   /* sem espaço para a assinatura ao lado da marca; ela já fecha o texto em "quem vai te atender" */
   .nav__assinatura { display: none; }
   /* no mobile o menu sai e a ação fica sempre visível */
@@ -685,7 +719,7 @@ p { margin: 0; max-width: 62ch; }
   .hero { padding: 40px var(--margem-dir) 54px var(--margem); gap: 22px; }
   .hero__copy { gap: 22px; }
   /* uma coluna: os temas são frases longas demais para dividir em 390px */
-  .hero__temas { grid-template-columns: 1fr; gap: 10px; font-size: .875rem; }
+  .hero__temas { grid-template-columns: 1fr; gap: 10px; font-size: .9375rem; }
   /* rótulo e valor lado a lado: ocupa três linhas em vez de seis, e o retrato sobe */
   .hero__fatos { flex-direction: column; gap: 10px; padding-top: 18px; }
   .hero__fatos > div { display: flex; align-items: baseline; gap: 14px; }
@@ -693,6 +727,13 @@ p { margin: 0; max-width: 62ch; }
   .hero__fatos dd { font-size: .9375rem; }
   .hero__portrait img { width: 100%; }
   .hero__action { flex-direction: column; align-items: flex-start; gap: 12px; }
+  /* no mobile todo o texto do hero acompanha a cor do h1 */
+  .hero .lead,
+  .hero .meta,
+  .hero__temas li,
+  .hero__fatos,
+  .hero__fatos dt,
+  .hero__fatos dd { color: var(--abissal); }
 
   .sobre__faixa img { height: 260px; }
   .sobre__texto { padding: 52px var(--margem-dir) 62px var(--margem); gap: 18px; }
@@ -711,9 +752,9 @@ p { margin: 0; max-width: 62ch; }
   /* a lista de especialidades empilha: nome em cima, descrição embaixo */
   .esp { flex-direction: column; gap: 9px; padding: 22px 0; }
   .esp dt { flex-basis: auto; font-size: 1.25rem; }
-  .esp dd { font-size: .875rem; }
+  .esp dd { font-size: .9375rem; }
 
-  .sec--instituto { padding-block: 62px 68px; }
+  .sec--instituto { padding-block: 62px calc(var(--mescla) + 28px); --mescla: 200px; }
   .pilares { flex-direction: column; gap: 30px; }
   .pilar { flex: none; gap: 11px; }
   .pilar::before { width: 36px; }
@@ -726,12 +767,15 @@ p { margin: 0; max-width: 62ch; }
   .sec--faq { padding-block: 54px 60px; }
   .sec--faq h2 { margin-bottom: 24px; max-width: none; }
   .faq__item summary { padding: 20px 0; gap: 16px; font-size: 1rem; }
-  .faq__item p { padding: 0 28px 20px 0; font-size: .875rem; }
+  .faq__item p { padding: 0 28px 20px 0; font-size: .9375rem; }
 
   .sec--contato { padding-top: 66px; }
   .contato { padding-bottom: 60px; gap: 18px; }
   .contato__acao { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .rodape { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 0 30px; }
+  .rodape__topo { align-items: flex-start; gap: 16px; padding: 24px 0 20px; }
+  .rodape__marca img { width: 40px; }
+  .rodape__manifesto p { font-size: .9375rem; }
+  .rodape__base { flex-direction: column; padding: 12px 0 24px; }
 }
 
 /* ============================================ quem pediu menos movimento */
