@@ -288,14 +288,14 @@ p { margin: 0; max-width: 62ch; }
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  padding: 30px var(--margem-dir) 30px var(--margem);
+  padding: 8.1px var(--margem-dir) 8.1px var(--margem);
   /* faixa branca sobre a foto: separa a marca e o menu do mar */
   background: var(--branco);
 }
 .nav__brand { display: flex; align-items: center; gap: 16px; }
 
 .nav__mark { display: inline-block; text-decoration: none; }
-.nav__mark img { width: 78px; height: auto; }
+.nav__mark img { width: 101.4px; height: auto; }
 
 /* assinatura + CRP, empilhados ao lado da marca — o mesmo par que fecha o texto em "quem vai te atender", só que compacto */
 .nav__assinatura {
@@ -664,8 +664,8 @@ p { margin: 0; max-width: 62ch; }
 
   body { font-size: 16px; }
 
-  .nav { padding: 26px var(--margem-dir) 26px var(--margem); }
-  .nav__mark img { width: 65px; }
+  .nav { padding: 7.5px var(--margem-dir) 7.5px var(--margem); }
+  .nav__mark img { width: 84.5px; }
   /* sem espaço para a assinatura ao lado da marca com cinco links no menu */
   .nav__assinatura { display: none; }
   .nav__links { gap: 16px; }
@@ -730,8 +730,8 @@ p { margin: 0; max-width: 62ch; }
   .whatsapp-flutuante { right: 18px; bottom: 18px; width: 52px; height: 52px; }
   .whatsapp-flutuante svg { width: 26px; height: 26px; }
 
-  .nav { padding: 18px var(--margem-dir) 18px var(--margem); }
-  .nav__mark img { width: 66px; }
+  .nav { padding: 0.85px var(--margem-dir) 0.85px var(--margem); }
+  .nav__mark img { width: 85.8px; }
   /* sem espaço para a assinatura ao lado da marca; ela já fecha o texto em "quem vai te atender" */
   .nav__assinatura { display: none; }
   /* no mobile o menu sai e a ação fica sempre visível */
