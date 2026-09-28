@@ -620,6 +620,8 @@ p { margin: 0; max-width: 62ch; }
 
 .contato { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; padding-bottom: 110px; }
 .contato__acao { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; padding-top: 8px; }
+/* telefone e email empilhados ao lado do botão */
+.contato__canais { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
 
 .rodape { border-top: 1px solid rgba(70,136,179,.35); }
 
