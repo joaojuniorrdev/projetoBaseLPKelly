@@ -454,9 +454,12 @@ p { margin: 0; max-width: 62ch; }
 
 /* --------------------------------------------------- 02 quem vai te atender */
 
-.sec--sobre { display: flex; align-items: stretch; gap: 84px; }
+.sec--sobre { display: flex; align-items: stretch; gap: 84px; padding-bottom: 104px; }
 /* a faixa começa exatamente na linha de profundidade: a régua vira a borda da foto */
-.sobre__faixa { margin: 0 0 0 var(--regua); flex: 0 0 320px; }
+.sobre__faixa { margin: 0 0 0 var(--regua); flex: 0 0 320px; position: relative; }
+/* a foto sai do fluxo: quem dita a altura é o texto, e a faixa vai do título à assinatura */
+.sobre__faixa .slot { position: absolute; inset: 0; }
+.sobre__faixa picture { display: block; height: 100%; }
 .sobre__faixa img { width: 320px; height: 100%; object-fit: cover; }
 
 /* duas fotos no mesmo lugar: a de baixo fica no fluxo e define a caixa, a de cima
@@ -480,7 +483,7 @@ p { margin: 0; max-width: 62ch; }
   flex-direction: column;
   align-items: flex-start;
   gap: 28px;
-  padding: 104px var(--margem-dir) 104px 0;
+  padding: 0 var(--margem-dir) 0 0;
   max-width: 640px;
 }
 
@@ -625,10 +628,10 @@ p { margin: 0; max-width: 62ch; }
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 28px 0 24px;
+  padding: 26px 0 23px;
 }
 .rodape__marca { flex: 0 0 auto; }
-.rodape__marca img { width: 48px; height: auto; }
+.rodape__marca img { width: 96px; height: auto; }
 
 .rodape__manifesto { margin: 0; }
 .rodape__manifesto blockquote { margin: 0; }
@@ -720,7 +723,9 @@ p { margin: 0; max-width: 62ch; }
   .ajuda { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 
   /* a faixa do "sobre" passa a sangrar no topo, não na lateral */
-  .sec--sobre { flex-direction: column; gap: 0; }
+  .sec--sobre { flex-direction: column; gap: 0; padding-bottom: 0; }
+  /* deitada, a faixa volta ao fluxo e tem altura própria */
+  .sobre__faixa .slot { position: relative; inset: auto; }
   /* aqui a faixa deita e ocupa a largura toda: sem a margem da régua */
   .sobre__faixa { flex: none; width: 100%; margin-left: 0; }
   /* a foto é de corpo inteiro: o enquadramento sobe para não cortar o rosto */
@@ -858,10 +863,20 @@ p { margin: 0; max-width: 62ch; }
   .sec--contato { padding-top: 66px; }
   .contato { padding-bottom: 60px; gap: 18px; }
   .contato__acao { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .rodape__topo { align-items: flex-start; gap: 16px; padding: 24px 0 20px; }
-  .rodape__marca img { width: 40px; }
+  .rodape__topo { align-items: flex-start; gap: 12px; padding: 24px 0 20px; }
+  /* a marca maior avança sobre a margem esquerda: a frase ao lado mantém a mesma largura
+     e o rodapé não cresce nas telas mais estreitas */
+  .rodape__marca { margin-left: calc(var(--margem-dir) - var(--margem)); }
+  .rodape__marca img { width: 80px; }
   .rodape__manifesto p { font-size: .9375rem; }
   .rodape__base { flex-direction: column; padding: 12px 0 24px; }
+}
+
+/* abaixo de 375px nem avançando sobre a margem a frase cabe ao lado da marca sem ganhar
+   uma linha: ela contorna a marca e segue por baixo dela, e o rodapé fica da mesma altura */
+@media (max-width: 374px) {
+  .rodape__topo { display: flow-root; }
+  .rodape__marca { float: left; margin-right: 12px; margin-bottom: 4px; }
 }
 
 /* ============================================ quem pediu menos movimento */
