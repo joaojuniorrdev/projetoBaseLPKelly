@@ -431,8 +431,9 @@ p { margin: 0; max-width: 62ch; }
 .ajuda__item {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 26px 20px 28px;
+  /* só o tema dentro: centrado na altura, as caixas da mesma linha ficam alinhadas */
+  justify-content: center;
+  padding: 24px 20px;
   /* sem borda: a caixa se separa do fundo branco só pela sombra, difusa e fria */
   background: var(--branco);
   border-radius: 8px;
@@ -449,13 +450,6 @@ p { margin: 0; max-width: 62ch; }
   font-weight: 500;
   line-height: 1.3;
   color: var(--abissal);
-}
-/* a descrição fica um degrau abaixo do tema */
-.ajuda__item p {
-  font-size: .875rem;
-  line-height: 1.55;
-  color: var(--profundo);
-  opacity: .8;
 }
 
 /* --------------------------------------------------- 02 quem vai te atender */
@@ -824,9 +818,8 @@ p { margin: 0; max-width: 62ch; }
     gap: 10px;
     margin-left: calc(var(--margem-dir) - var(--margem));
   }
-  .ajuda__item { padding: 14px 9px 16px; gap: 6px; border-radius: 6px; }
+  .ajuda__item { padding: 14px 9px; border-radius: 6px; }
   .ajuda__item h3 { font-size: .8125rem; line-height: 1.25; }
-  .ajuda__item p { font-size: .75rem; line-height: 1.45; }
 
   .sobre__faixa img { height: 260px; }
   .sobre__texto { padding: 52px var(--margem-dir) 62px var(--margem); gap: 18px; }
