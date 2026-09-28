@@ -273,6 +273,7 @@ p { margin: 0; max-width: 62ch; }
 @media (pointer: coarse) {
   .sec--superficie { background-attachment: scroll, scroll, scroll; }
 }
+.sec--ajuda      { --agua: var(--branco);  --proxima: var(--branco);   padding-block: 96px 104px; }
 .sec--sobre      { --agua: var(--branco);  --proxima: var(--nivel-1);  padding-left: 0; padding-right: 0; }
 .sec--passos     { --agua: var(--nivel-1); --proxima: var(--abissal);  padding-block: 110px 320px; --mescla: 280px; }
 .sec--fundo      { --agua: var(--abissal); --proxima: var(--profundo); padding-block: 118px 126px; color: var(--branco); }
@@ -412,6 +413,49 @@ p { margin: 0; max-width: 62ch; }
   font-size: 1rem;
   font-weight: 500;
   color: var(--abissal);
+}
+
+/* ---------------------------------------------------- 01.5 quando pedir ajuda */
+
+.sec--ajuda h2 { margin-bottom: 44px; }
+
+/* doze temas em 6 × 2: cada caixa é um "isso é pra mim?" lido de relance */
+.ajuda {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px;
+}
+.ajuda__item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 26px 20px 28px;
+  /* sem borda: a caixa se separa do fundo branco só pela sombra, difusa e fria */
+  background: var(--branco);
+  border-radius: 8px;
+  box-shadow:
+    0 1px 2px rgba(1,31,68,.05),
+    0 10px 28px rgba(1,31,68,.08);
+  /* palavras longas como "neuropsicológica" quebram com hífen nas caixas estreitas */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
+}
+.ajuda__item h3 {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--abissal);
+}
+/* a descrição fica um degrau abaixo do tema */
+.ajuda__item p {
+  font-size: .875rem;
+  line-height: 1.55;
+  color: var(--profundo);
+  opacity: .8;
 }
 
 /* --------------------------------------------------- 02 quem vai te atender */
@@ -676,6 +720,11 @@ p { margin: 0; max-width: 62ch; }
   .hero__temas { gap: 12px 32px; }
   .hero__fatos { gap: 16px 40px; }
 
+  /* seis colunas não cabem em ~900px: 4 × 3 até chegar ao mobile */
+  .sec--ajuda { padding-block: 78px 84px; }
+  .sec--ajuda h2 { margin-bottom: 34px; }
+  .ajuda { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+
   /* a faixa do "sobre" passa a sangrar no topo, não na lateral */
   .sec--sobre { flex-direction: column; gap: 0; }
   /* aqui a faixa deita e ocupa a largura toda: sem a margem da régua */
@@ -764,6 +813,20 @@ p { margin: 0; max-width: 62ch; }
   .hero__temas li,
   .hero__fatos dd { font-weight: 700; }
   .hero__fatos dt { font-weight: 600; }
+
+  /* 3 × 4: caixas estreitas, então tudo encolhe junto */
+  .sec--ajuda { padding-block: 54px 60px; }
+  .sec--ajuda h2 { margin-bottom: 24px; }
+  /* o título fica na espinha, mas a grade avança até a margem direita espelhada
+     à esquerda: são 20px a mais para três colunas numa tela de 390px */
+  .ajuda {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-left: calc(var(--margem-dir) - var(--margem));
+  }
+  .ajuda__item { padding: 14px 9px 16px; gap: 6px; border-radius: 6px; }
+  .ajuda__item h3 { font-size: .8125rem; line-height: 1.25; }
+  .ajuda__item p { font-size: .75rem; line-height: 1.45; }
 
   .sobre__faixa img { height: 260px; }
   .sobre__texto { padding: 52px var(--margem-dir) 62px var(--margem); gap: 18px; }
