@@ -419,7 +419,7 @@ p { margin: 0; max-width: 62ch; }
 
 .sec--ajuda h2 { margin-bottom: 44px; }
 
-/* doze temas em 6 × 2: cada caixa é um "isso é pra mim?" lido de relance */
+/* dezoito temas em 6 × 3: cada caixa é um "isso é pra mim?" lido de relance */
 .ajuda {
   list-style: none;
   margin: 0;
@@ -719,10 +719,10 @@ p { margin: 0; max-width: 62ch; }
   .hero__temas { gap: 12px 32px; }
   .hero__fatos { gap: 16px 40px; }
 
-  /* seis colunas não cabem em ~900px: 4 × 3 até chegar ao mobile */
+  /* seis colunas não cabem em ~900px: 3 × 6, que fecha as linhas sem sobra */
   .sec--ajuda { padding-block: 78px 84px; }
   .sec--ajuda h2 { margin-bottom: 34px; }
-  .ajuda { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .ajuda { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 
   /* a faixa do "sobre" passa a sangrar no topo, não na lateral */
   .sec--sobre { flex-direction: column; gap: 0; padding-bottom: 0; }
@@ -815,7 +815,7 @@ p { margin: 0; max-width: 62ch; }
   .hero__fatos dd { font-weight: 700; }
   .hero__fatos dt { font-weight: 600; }
 
-  /* 3 × 4: caixas estreitas, então tudo encolhe junto */
+  /* 3 × 6: caixas estreitas, então tudo encolhe junto */
   .sec--ajuda { padding-block: 54px 60px; }
   .sec--ajuda h2 { margin-bottom: 24px; }
   /* o título fica na espinha, mas a grade avança até a margem direita espelhada
