@@ -12,8 +12,8 @@
   --superficie: #7AE3EF;
   --respiro:    #FFCBE7;
   --socorro:    #FF0010;
-  --sol:        #F5B800;   /* amarelo-ouro: "ajuda" no título do hero */
-  --visto:      #53BDEB;   /* o azul do "visualizado" do WhatsApp: "coragem" no título do hero */
+  --sol:        #E8C800;   /* amarelo: "ajuda" no título do hero */
+  --visto:      #1A85BD;   /* o azul do "visualizado" do WhatsApp: "coragem" no título do hero */
   --branco:     #FFFFFF;
 
   /* níveis de fundo */
@@ -83,8 +83,29 @@ a { color: inherit; }
 .h-display__destaque { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .08em; }
 
 /* as duas palavras-chave do título ganham cor própria */
-.h-display__ajuda   { color: var(--sol); }
-.h-display__coragem { color: var(--visto); }
+.h-display__ajuda   { --tinta: var(--sol); }
+.h-display__coragem { --tinta: var(--visto); }
+.h-display__ajuda,
+.h-display__coragem { color: var(--tinta); }
+
+/* com JavaScript, elas nascem na cor do título e a tinta corre da esquerda para a
+   direita, como um pincel passando letra por letra. O fundo tem 220% da largura da
+   palavra: tinta até 46%, azul do título a partir de 54%. Como a palavra mostra só
+   100/220 ≈ 45,5% do fundo, no início ela está toda azul e no fim toda tinta, e a
+   borda suave entre as duas só aparece durante a passagem */
+.js [data-enter] .h-display__ajuda,
+.js [data-enter] .h-display__coragem {
+  color: transparent;
+  background: linear-gradient(to right, var(--tinta) 46%, var(--abissal) 54%) 100% 0 / 220% 100% no-repeat;
+  -webkit-background-clip: text;
+          background-clip: text;
+}
+[data-enter].is-dentro .h-display__ajuda   { animation: pintar 1.6s cubic-bezier(.45, 0, .3, 1) .9s forwards; }
+[data-enter].is-dentro .h-display__coragem { animation: pintar 1.9s cubic-bezier(.45, 0, .3, 1) 2.3s forwards; }
+
+@keyframes pintar {
+  to { background-position: 0 0; }
+}
 
 h2 {
   font-family: "Spectral", Georgia, serif;
