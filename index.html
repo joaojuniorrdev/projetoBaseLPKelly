@@ -162,11 +162,14 @@
   <figure class="sobre__faixa">
     <span class="slot" data-label="faixa 640 × 1322">
       <picture>
+        <!-- no mobile a faixa deita: entram fotos quase quadradas, que enquadram melhor -->
+        <source media="(max-width: 640px)" srcset="assets/Foto-sentada-res-mobile.jpeg">
         <source srcset="assets/faixa-sobre.webp" type="image/webp">
         <img src="assets/faixa-sobre.jpg" alt="Kelly Cristina em traje formal" width="540" height="1115" loading="lazy">
       </picture>
       <!-- segunda foto, sobreposta: entra e sai no fade; a de baixo é que define a caixa -->
       <picture class="sobre__alterna" aria-hidden="true">
+        <source media="(max-width: 640px)" srcset="assets/Foto-jaleco-res-mobile.jpeg">
         <source srcset="assets/retrato-hero.webp" type="image/webp">
         <img src="assets/retrato-hero.jpg" alt="" width="540" height="751" loading="lazy">
       </picture>
