@@ -80,6 +80,37 @@ a { color: inherit; }
 }
 .h-display__destaque { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .08em; }
 
+/* linha ondulada sob as palavras-chave do hero: um SVG serve de máscara e a cor
+   vem de --socorro, então o risco acompanha a paleta se ela mudar */
+/* o título inteiro isola as camadas: o risco (z-index -1) fica atrás de todas as letras
+   do h1, inclusive as da linha de baixo, sem descer para trás do fundo da seção */
+.h-display { isolation: isolate; }
+.h-display__risco {
+  position: relative;
+  white-space: nowrap;
+}
+.h-display__risco::after {
+  content: "";
+  position: absolute;
+  left: -3%;
+  right: -3%;
+  bottom: -.02em;
+  height: .26em;
+  z-index: -1;
+  background: var(--socorro);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M4 13C22 8 36 16 58 12s38-7 60-2 40 5 58 0 18-3 20-2' fill='none' stroke='%23000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M4 13C22 8 36 16 58 12s38-7 60-2 40 5 58 0 18-3 20-2' fill='none' stroke='%23000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+/* com JavaScript, o risco se desenha da esquerda para a direita logo depois que o título emerge */
+.js [data-enter] .h-display__risco::after { clip-path: inset(0 100% 0 0); }
+[data-enter].is-dentro .h-display__risco::after { animation: risco .8s var(--ease) .7s forwards; }
+/* "coragem" vem logo depois de "ajuda" */
+[data-enter].is-dentro .h-display__risco:last-of-type::after { animation-delay: 1.1s; }
+
+@keyframes risco {
+  to { clip-path: inset(0 0 0 0); }
+}
+
 h2 {
   font-family: "Spectral", Georgia, serif;
   font-weight: 400;
@@ -253,6 +284,9 @@ p { margin: 0; max-width: 62ch; }
   --agua: var(--nivel-2); --proxima: var(--branco);   padding-left: 0; padding-right: 0;
   /* mescla curta: precisa caber no padding inferior do hero para não cobrir o texto */
   --mescla: 60px;
+  /* opacidade do véu branco sobre a foto, do topo à base do hero */
+  --veu-topo: .2;
+  --veu-base: .6;
   background-image:
     linear-gradient(
       to bottom,
@@ -260,7 +294,7 @@ p { margin: 0; max-width: 62ch; }
       var(--proxima) 100%
     ),
     /* véu branco: deixa a foto 20% mais transparente */
-    linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,.6)),
+    linear-gradient(rgba(255,255,255,var(--veu-topo)), rgba(255,255,255,var(--veu-base))),
     url('assets/fundo-hero.jpg');
   background-size: 100% 100%, 100% 100%, cover;
   background-position: top, top, center;
@@ -784,6 +818,9 @@ p { margin: 0; max-width: 62ch; }
   :root { --margem: 44px; --margem-dir: 24px; --regua: 20px; --mescla: 110px; }
   .sec--superficie {
     --mescla: 36px;
+    /* tela pequena, texto sobre a foto: o véu engrossa para o texto não brigar com o mar */
+    --veu-topo: .6;
+    --veu-base: .88;
     /* numa tela estreita o cover corta as laterais da foto (3:2) e o centro cai
        no mar vazio: ancorar à direita mantém em quadro a pessoa olhando a paisagem */
     background-position: top, top, right center;
@@ -965,6 +1002,7 @@ p { margin: 0; max-width: 62ch; }
     transition-duration: .001ms !important;
   }
   [data-enter] [data-enter-item] { opacity: 1; transform: none; }
+  .js [data-enter] .h-display__risco::after { clip-path: none; }
   [data-revela] { opacity: 1; transform: none; }
   .btn::after { display: none; }
   /* sem o animation: none a regra de duração acima faria a troca piscar */
