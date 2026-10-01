@@ -1,14 +1,12 @@
 /* =========================================================================
    Instituto PSI & DH — comportamento da página
 
-   São quatro coisas, só:
+   São cinco coisas, só:
    1. a barra com o WhatsApp aparece depois do hero
    2. o hero emerge uma vez, na carga
    3. espaços de imagem mostram o contorno quando o arquivo não existe
    4. o menu hamburguer do mobile abre e fecha
-
-   Nada anima ao entrar na tela durante a rolagem. É proposital: a descida
-   já é o movimento da página.
+   5. os itens das seções surgem num fade ao entrar na tela, uma vez só
    ========================================================================= */
 
 (function () {
@@ -95,6 +93,46 @@
         definirMenu(false);
         botaoMenu.focus();
       }
+    });
+  }
+
+  /* ------------------------------------- 5. fade dos itens ao rolar */
+
+  var itensRevelados = [
+    ".sec > h2",
+    ".ajuda__item",
+    ".sobre__faixa",
+    ".sobre__texto > *",
+    ".passo",
+    ".esp",
+    ".sec--instituto > .lead",
+    ".pilar",
+    ".sec--onde > .statement",
+    ".locais li",
+    ".sec--onde > .meta",
+    ".faq__item",
+    ".contato > *",
+    ".rodape__topo",
+    ".rodape__base"
+  ].join(",");
+
+  /* sem IntersectionObserver ou com menos movimento pedido, tudo fica visível */
+  if (!menosMovimento && "IntersectionObserver" in window) {
+    var observador = new IntersectionObserver(function (entradas) {
+      /* o que entra junto (as caixas de uma linha da grade, por exemplo) surge em sequência */
+      var ordem = 0;
+      entradas.forEach(function (entrada) {
+        if (!entrada.isIntersecting) return;
+        entrada.target.style.setProperty("--atraso", Math.min(ordem, 7) * 70 + "ms");
+        entrada.target.classList.add("is-revelado");
+        observador.unobserve(entrada.target);
+        ordem++;
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+
+    Array.prototype.forEach.call(document.querySelectorAll(itensRevelados), function (item) {
+      item.setAttribute("data-revela", "");
+      observador.observe(item);
     });
   }
 

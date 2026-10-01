@@ -353,7 +353,7 @@ p { margin: 0; max-width: 62ch; }
 
 /* no desktop o menu é só a linha de links; o botão hamburguer aparece no mobile */
 .nav__menu { display: flex; align-items: center; }
-.nav__toggle { display: none; }
+.nav__toggle { display: none;}
 
 /* sem retrato: uma coluna só, ancorada na mesma margem que o resto da página */
 .hero {
@@ -705,6 +705,18 @@ p { margin: 0; max-width: 62ch; }
 [data-enter].is-dentro [data-enter-item]:nth-child(4) { transition-delay: .35s; }
 [data-enter].is-dentro [data-enter-item]:nth-child(5) { transition-delay: .45s; }
 
+/* =============================================== o fade ao rolar a página */
+/* O script marca os itens das seções com data-revela; cada um surge uma vez,
+   subindo de leve, quando entra na tela.                                      */
+
+[data-revela] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+  transition-delay: var(--atraso, 0s);
+}
+[data-revela].is-revelado { opacity: 1; transform: none; }
+
 /* ===================================================================== 768 */
 
 @media (max-width: 1080px) {
@@ -953,6 +965,7 @@ p { margin: 0; max-width: 62ch; }
     transition-duration: .001ms !important;
   }
   [data-enter] [data-enter-item] { opacity: 1; transform: none; }
+  [data-revela] { opacity: 1; transform: none; }
   .btn::after { display: none; }
   /* sem o animation: none a regra de duração acima faria a troca piscar */
   .sobre__alterna { animation: none; opacity: 0; }
