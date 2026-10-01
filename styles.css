@@ -939,7 +939,8 @@ p { margin: 0; max-width: 62ch; }
   .sobre__faixa img { height: 260px; }
   .sobre__texto { padding: 52px var(--margem-dir) 62px var(--margem); gap: 18px; }
 
-  .sec--passos { padding-block: 60px 320px; }
+  /* no mobile a descida para o azul das especialidades fica mais curta */
+  .sec--passos { padding-block: 60px 150px; --mescla: 130px; }
   .sec--passos h2 { margin-bottom: 32px; }
   .passos { gap: 26px; }
   .passo { gap: 14px; }
