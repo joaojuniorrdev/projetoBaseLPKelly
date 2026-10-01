@@ -1,10 +1,11 @@
 /* =========================================================================
    Instituto PSI & DH — comportamento da página
 
-   São três coisas, só:
+   São quatro coisas, só:
    1. a barra com o WhatsApp aparece depois do hero
    2. o hero emerge uma vez, na carga
    3. espaços de imagem mostram o contorno quando o arquivo não existe
+   4. o menu hamburguer do mobile abre e fecha
 
    Nada anima ao entrar na tela durante a rolagem. É proposital: a descida
    já é o movimento da página.
@@ -63,6 +64,39 @@
       img.addEventListener("error", marcarFalta);
     }
   });
+
+  /* ----------------------------------------------- 4. menu hamburguer */
+
+  var nav = document.querySelector(".nav");
+  var botaoMenu = nav && nav.querySelector(".nav__toggle");
+
+  function definirMenu(aberto) {
+    nav.classList.toggle("is-aberto", aberto);
+    botaoMenu.setAttribute("aria-expanded", aberto ? "true" : "false");
+    botaoMenu.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
+  }
+
+  if (botaoMenu) {
+    botaoMenu.addEventListener("click", function () {
+      definirMenu(!nav.classList.contains("is-aberto"));
+    });
+
+    /* escolher uma seção (ou o WhatsApp) já fecha o painel */
+    Array.prototype.forEach.call(nav.querySelectorAll(".nav__menu a"), function (link) {
+      link.addEventListener("click", function () { definirMenu(false); });
+    });
+
+    /* um toque fora do nav ou o Esc também fecham */
+    document.addEventListener("click", function (evento) {
+      if (nav.classList.contains("is-aberto") && !nav.contains(evento.target)) definirMenu(false);
+    });
+    document.addEventListener("keydown", function (evento) {
+      if (evento.key === "Escape" && nav.classList.contains("is-aberto")) {
+        definirMenu(false);
+        botaoMenu.focus();
+      }
+    });
+  }
 
   /* ------------------------------------------------------------- disparos */
 
