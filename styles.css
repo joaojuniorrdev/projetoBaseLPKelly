@@ -12,6 +12,8 @@
   --superficie: #7AE3EF;
   --respiro:    #FFCBE7;
   --socorro:    #FF0010;
+  --sol:        #F5B800;   /* amarelo-ouro: "ajuda" no título do hero */
+  --visto:      #53BDEB;   /* o azul do "visualizado" do WhatsApp: "coragem" no título do hero */
   --branco:     #FFFFFF;
 
   /* níveis de fundo */
@@ -80,36 +82,9 @@ a { color: inherit; }
 }
 .h-display__destaque { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .08em; }
 
-/* linha ondulada sob as palavras-chave do hero: um SVG serve de máscara e a cor
-   vem de --socorro, então o risco acompanha a paleta se ela mudar */
-/* o título inteiro isola as camadas: o risco (z-index -1) fica atrás de todas as letras
-   do h1, inclusive as da linha de baixo, sem descer para trás do fundo da seção */
-.h-display { isolation: isolate; }
-.h-display__risco {
-  position: relative;
-  white-space: nowrap;
-}
-.h-display__risco::after {
-  content: "";
-  position: absolute;
-  left: -3%;
-  right: -3%;
-  bottom: -.02em;
-  height: .26em;
-  z-index: -1;
-  background: var(--socorro);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M4 13C22 8 36 16 58 12s38-7 60-2 40 5 58 0 18-3 20-2' fill='none' stroke='%23000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M4 13C22 8 36 16 58 12s38-7 60-2 40 5 58 0 18-3 20-2' fill='none' stroke='%23000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-}
-/* com JavaScript, o risco se desenha da esquerda para a direita logo depois que o título emerge */
-.js [data-enter] .h-display__risco::after { clip-path: inset(0 100% 0 0); }
-[data-enter].is-dentro .h-display__risco::after { animation: risco .8s var(--ease) .7s forwards; }
-/* "coragem" vem logo depois de "ajuda" */
-[data-enter].is-dentro .h-display__risco:last-of-type::after { animation-delay: 1.1s; }
-
-@keyframes risco {
-  to { clip-path: inset(0 0 0 0); }
-}
+/* as duas palavras-chave do título ganham cor própria */
+.h-display__ajuda   { color: var(--sol); }
+.h-display__coragem { color: var(--visto); }
 
 h2 {
   font-family: "Spectral", Georgia, serif;
@@ -1002,7 +977,6 @@ p { margin: 0; max-width: 62ch; }
     transition-duration: .001ms !important;
   }
   [data-enter] [data-enter-item] { opacity: 1; transform: none; }
-  .js [data-enter] .h-display__risco::after { clip-path: none; }
   [data-revela] { opacity: 1; transform: none; }
   .btn::after { display: none; }
   /* sem o animation: none a regra de duração acima faria a troca piscar */
